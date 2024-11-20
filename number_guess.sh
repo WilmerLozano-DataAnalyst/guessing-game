@@ -19,3 +19,22 @@ else
   INSERT_USER_RESULT=$($PSQL "INSERT INTO users(username) VALUES('$USERNAME')")
   echo "Welcome, $USERNAME! It looks like this is your first time here."
 fi
+
+#gestionando el juego
+echo "Guess the secret number between 1 and 1000:"
+NUMBER_OF_GUESSES=0
+while true; do
+  read GUESS
+  if ! [[ $GUESS =~ ^[0-9]+$ ]]; then
+    echo "That is not an integer, guess again:"
+  elif [[ $GUESS -lt $SECRET_NUMBER ]]; then
+    echo "It's higher than that, guess again:"
+  elif [[ $GUESS -gt $SECRET_NUMBER ]]; then
+    echo "It's lower than that, guess again:"
+  else
+    NUMBER_OF_GUESSES=$(( NUMBER_OF_GUESSES + 1 ))
+    echo "You guessed it in $NUMBER_OF_GUESSES tries. The secret number was $SECRET_NUMBER. Nice job!"
+    break
+  fi
+  NUMBER_OF_GUESSES=$(( NUMBER_OF_GUESSES + 1 ))
+done
