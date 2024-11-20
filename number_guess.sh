@@ -38,3 +38,9 @@ while true; do
   fi
   NUMBER_OF_GUESSES=$(( NUMBER_OF_GUESSES + 1 ))
 done
+
+#Implementar el resultado en la base de datos
+USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME'")
+if [[ $USER_ID ]]; then
+  INSERT_GAME_RESULT=$($PSQL "INSERT INTO games(user_id, guesses, secret_number) VALUES($USER_ID, $NUMBER_OF_GUESSES, $SECRET_NUMBER)")
+fi
